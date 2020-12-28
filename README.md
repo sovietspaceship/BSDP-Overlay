@@ -8,7 +8,7 @@ It displays ScoreSaber player data and adds difficulty, star rating and max PP t
 To use this overlay, add a Browser source to the Scene tab in OBS and set URL to overlay/index.html with the appropriate query params,
 e.g. `file:///whatever/BSDP-Overlay/overlay/index.html?scoresaberPlayerId=111111&bgColor=FF0&textColor=FF0`. No custom CSS needed.
 
-Required the [DataPuller](https://github.com/kOFReadie/BSDataPuller) Beat Saber mod by [kOFReadie](https://github.com/kOFReadie) (check ModAssistant or download from https://github.com/kOFReadie/BSDataPuller/releases)
+Requires the [DataPuller](https://github.com/kOFReadie/BSDataPuller) Beat Saber mod by [kOFReadie](https://github.com/kOFReadie) (check ModAssistant or download from https://github.com/kOFReadie/BSDataPuller/releases)
 
 # Query Parameters
 
