@@ -1,0 +1,123 @@
+:root {
+  --bg-colour: rgba(48, 20, 68, 0.5);
+  --text-colour: white;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  color: var(--text-colour);
+  background: black;
+  margin: 0;
+  overflow: hidden;
+}
+
+body > * {
+  position: absolute;
+}
+
+p {
+  line-height: 0;
+  margin: 0;
+}
+h2 {
+  line-height: 0;
+  margin: 0;
+}
+h3 {
+  line-height: 0;
+}
+h1 {
+  line-height: 0;
+  margin: 0;
+}
+
+.scoreStats,
+.scoreStatsBottom {
+  left: 50%;
+  transform: translate(-50%);
+  width: max-content;
+  min-width: 400px;
+  background-color: var(--bg-colour);
+  display: flex;
+  justify-content: space-around;
+  border-radius: 0px 0px 1em 1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.scoreStats > h2,
+.scoreStatsBottom > h2 {
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+  top: 100%;
+  transform: translate(0, -50%);
+}
+
+.mapInfo {
+  bottom: 10px;
+  right: 10px;
+  max-width: 75%;
+}
+
+.bsrContainer {
+  font-size: 0.8em;
+  display: block;
+  text-align: right;
+  opacity: 0.75;
+}
+
+.mapInfo > div {
+  display: flex;
+  align-items: flex-end;
+}
+
+.beatmapImageContainer {
+  position: relative;
+  background-color: var(--bg-colour);
+  width: 160px;
+  height: 160px;
+  border: 1em;
+  border-radius: 0.5em 0.5em 0.5em 0px;
+}
+
+.beatmapImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
+  border-radius: 0.5em;
+}
+
+.beatmapInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.beatmapInfo > p {
+  width: fit-content;
+  border-radius: 10px 0px 0px 10px;
+  padding: 17.5px 5px 12.5px 10px;
+  background-color: var(--bg-colour);
+}
+
+.song {
+  width: fit-content;
+  border-radius: 10px 0px 0px 10px;
+  padding: 22.5px 10px 22.5px 5px;
+  background-color: var(--bg-colour);
+  display: flex;
+}
+
+.scoresaberInfo {
+  top: 0px;
+  right: 0px;
+  font-size: 0.8em;
+  padding: 0.5em;
+  background-color: var(--bg-colour);
+  border-radius: 0 0 0 0.5em;
+}

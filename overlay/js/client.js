@@ -3,45 +3,43 @@ let IP = urlParams.has("ip") ? urlParams.get("ip") : "127.0.0.1";
 
 var DataPuller;
 
-window.addEventListener("load", () =>
-{
+window.addEventListener("load", () => {
     console.log("If you don't have the BSDataPuller mod then download the latest relaese from here and place it in your BS mods folder: https://github.com/kOFReadie/BSDataPuller/releases/latest");
     DataPuller = new DataPullerWebsocket();
     DataPuller.AddEndpoint("StaticData");
     DataPuller.AddEndpoint("LiveData");
 });
 
-class DataPullerWebsocket
-{
+class DataPullerWebsocket {
     constructor() { this.ws = []; }
 
-    AddEndpoint(Endpoint)
-    {
+    AddEndpoint(Endpoint) {
         this.ws[Endpoint] = new WebSocket(`ws://${IP}:2946/BSDataPuller/${Endpoint}`);
 
         this.ws[Endpoint].onerror = () => { this.Reconnect(); };
         this.ws[Endpoint].onclosing = () => { this.Reconnect(); };
         this.ws[Endpoint].onclose = () => { this.Reconnect(); };
-        this.ws[Endpoint].onopen = ()=> { window.dispatchEvent(new CustomEvent(`${Endpoint}Connected`)); }
-        this.ws[Endpoint].onmessage = (e) =>
-        {
+        this.ws[Endpoint].onopen = () => { window.dispatchEvent(new CustomEvent(`${Endpoint}Connected`)); }
+        this.ws[Endpoint].onmessage = (e) => {
             let jsonData = JSON.parse(e.data);
             window.dispatchEvent(new CustomEvent(`${Endpoint}Updated`, { detail: jsonData }));
-            /*if (urlParams.has("debug"))
-            {
-                console.log(jsonData);
-                let debugBox = document.querySelector("#debug");
-                debugBox.value += "\n" + e.data;
-                debugBox.scrollTop = debugBox.scrollHeight;
-            }*/
         };
     }
 
-    Reconnect()
-    {
+    Reconnect() {
         window.dispatchEvent(new CustomEvent("WebsocketReconnect"));
         let Endpoints = Object.keys(this.ws);
         this.ws = [];
         setTimeout(() => { for (let Endpoint of Endpoints) { this.AddEndpoint(Endpoint); } }, 5000); //5 second reconnect timeout
+    }
+}
+
+class ScoresaberClient {
+    async request(endpoint) {
+        const result = await fetch('https://new.scoresaber.com/api/' + endpoint)
+        return result.json()
+    }
+    getPlayerInfo(id) {
+        return this.request(`player/${id}/full`)
     }
 }
