@@ -4,10 +4,12 @@ const state = {
 }
 
 const elements = {
+    scoreStats: null,
     time: null,
     score: null,
     accuracy: null,
     combo: null,
+    mapInfo: null,
     preBsr: null,
     beatmapImage: null,
     bsr: null,
@@ -37,15 +39,16 @@ window.addEventListener("load", () => {
         document.documentElement.style.setProperty('--text-colour', urlParams.get('textColor').replace(/^#?/, '#'), 'important')
     }
 
-    document.body.style.visibility = "hidden";
-    window.addEventListener("WebsocketReconnect", () => { document.body.style.visibility = "hidden"; });
-    window.addEventListener("LiveDataConnected", () => { document.body.style.visibility = "visible"; });
+    window.addEventListener("WebsocketReconnect", () => { displaySongOverlay(false); });
+    window.addEventListener("LiveDataConnected", () => { displaySongOverlay(true) });
 
+    elements.scoreStats = document.querySelector('.scoreStats')
     elements.time = document.querySelector(".time");
     elements.score = document.querySelector(".score");
     elements.accuracy = document.querySelector(".accuracy");
     elements.combo = document.querySelector(".combo");
 
+    elements.mapInfo = document.querySelector('.mapInfo')
     elements.preBsr = document.querySelector(".preBSR");
     elements.beatmapImage = document.querySelector(".beatmapImage");
     elements.bsr = document.querySelector(".bsr");
@@ -87,7 +90,7 @@ window.addEventListener("LiveDataUpdated", ({ detail: data }) => {
     elements.score.textContent = data.Score.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ',');
     elements.accuracy.textContent = `${data.Accuracy.toFixed(2)}%`;
     elements.combo.textContent = data.Combo.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ',');
-    document.body.style.visibility = state.inLevel ? "visible" : "hidden"
+    displaySongOverlay(state.inLevel)
     if (wasInLevel && !state.inLevel && state.scoresaberPlayerId) {
         updateScoresaberInfo()
     }
@@ -95,13 +98,14 @@ window.addEventListener("LiveDataUpdated", ({ detail: data }) => {
 
 async function updateScoresaberInfo() {
     if (!state.scoresaberPlayerId) {
-        elements.scoresaberInfo.style.display = 'none'
+        elements.scoresaberInfo.style.visibility = 'hidden'
     }
     const scoresaber = new ScoresaberClient()
     const response = await scoresaber.getPlayerInfo(state.scoresaberPlayerId)
     if (response) {
         const { playerInfo } = response
         elements.scoresaberInfo.textContent = `${playerInfo.playerName} #${playerInfo.rank} (#${playerInfo.countryRank} ${playerInfo.country}) ${playerInfo.pp.toFixed(2)}pp`
+        elements.scoresaberInfo.style.visibility = 'visible'
     }
 }
 
@@ -109,4 +113,9 @@ function SecondsToMins(seconds) {
     let Mins = Math.floor(seconds / 60).toString().padStart(2, "0");
     let Seconds = (seconds - (Math.floor(seconds / 60) * 60)).toString().padStart(2, "0");
     return `${Mins}:${Seconds}`;
+}
+
+function displaySongOverlay(show) {
+    elements.mapInfo.style.visibility = show ? 'visible' : 'hidden'
+    elements.scoreStats.style.visibility = show ? 'visible' : 'hidden'
 }
