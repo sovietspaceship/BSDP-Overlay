@@ -63,7 +63,7 @@ window.addEventListener("load", () => {
     updateScoresaberInfo()
 })
 
-window.addEventListener("StaticDataUpdated", ({ detail: data }) => {
+window.addEventListener("MapDataUpdated", ({ detail: data }) => {
     elements.beatmapImage.src = data.coverImage || "assets/BeatSaberIcon.jpg";
 
     elements.bsr.textContent = data.BSRKey ? `!bsr ${data.BSRKey}` : '';

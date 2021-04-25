@@ -6,7 +6,7 @@ var DataPuller;
 window.addEventListener("load", () => {
     console.log("If you don't have the BSDataPuller mod then download the latest relaese from here and place it in your BS mods folder: https://github.com/kOFReadie/BSDataPuller/releases/latest");
     DataPuller = new DataPullerWebsocket();
-    DataPuller.AddEndpoint("StaticData");
+    DataPuller.AddEndpoint("MapData");
     DataPuller.AddEndpoint("LiveData");
 });
 
