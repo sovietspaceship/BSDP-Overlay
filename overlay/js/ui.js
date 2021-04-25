@@ -64,6 +64,9 @@ window.addEventListener("load", () => {
 })
 
 window.addEventListener("MapDataUpdated", ({ detail: data }) => {
+    const wasInLevel = state.inLevel
+    state.inLevel = data.InLevel
+
     elements.beatmapImage.src = data.coverImage || "assets/BeatSaberIcon.jpg";
 
     elements.bsr.textContent = data.BSRKey ? `!bsr ${data.BSRKey}` : '';
@@ -81,19 +84,19 @@ window.addEventListener("MapDataUpdated", ({ detail: data }) => {
     state.mapLength = SecondsToMins(data.Length)
 
     elements.time.textContent = `00:00/${state.mapLength}`
+
+    displaySongOverlay(state.inLevel)
+
+    if (wasInLevel && !state.inLevel && state.scoresaberPlayerId) {
+        updateScoresaberInfo()
+    }
 })
 
 window.addEventListener("LiveDataUpdated", ({ detail: data }) => {
-    const wasInLevel = state.inLevel
-    state.inLevel = data.InLevel
     elements.time.textContent = `${SecondsToMins(data.TimeElapsed)}/${state.mapLength}`;
     elements.score.textContent = data.Score.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ',');
     elements.accuracy.textContent = `${data.Accuracy.toFixed(2)}%`;
     elements.combo.textContent = data.Combo.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ',');
-    displaySongOverlay(state.inLevel)
-    if (wasInLevel && !state.inLevel && state.scoresaberPlayerId) {
-        updateScoresaberInfo()
-    }
 })
 
 async function updateScoresaberInfo() {
